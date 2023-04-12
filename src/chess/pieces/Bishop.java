@@ -12,6 +12,11 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
+    public String toString() {
+        return "B";
+    }
+
+    @Override
     public boolean[][] possibleMoves() {
         boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
 
@@ -23,8 +28,9 @@ public class Bishop extends ChessPiece {
             mat[p.getRow()][p.getColumn()] = true;
             p.setValues(p.getRow() - 1, p.getColumn() - 1);
         }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p))
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
             mat[p.getRow()][p.getColumn()] = true;
+        }
 
         // ne
         p.setValues(position.getRow() - 1, position.getColumn() + 1);
@@ -32,8 +38,9 @@ public class Bishop extends ChessPiece {
             mat[p.getRow()][p.getColumn()] = true;
             p.setValues(p.getRow() - 1, p.getColumn() + 1);
         }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p))
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
             mat[p.getRow()][p.getColumn()] = true;
+        }
 
         // se
         p.setValues(position.getRow() + 1, position.getColumn() + 1);
@@ -41,8 +48,9 @@ public class Bishop extends ChessPiece {
             mat[p.getRow()][p.getColumn()] = true;
             p.setValues(p.getRow() + 1, p.getColumn() + 1);
         }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p))
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
             mat[p.getRow()][p.getColumn()] = true;
+        }
 
         // sw
         p.setValues(position.getRow() + 1, position.getColumn() - 1);
@@ -50,14 +58,10 @@ public class Bishop extends ChessPiece {
             mat[p.getRow()][p.getColumn()] = true;
             p.setValues(p.getRow() + 1, p.getColumn() - 1);
         }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p))
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
             mat[p.getRow()][p.getColumn()] = true;
+        }
 
         return mat;
-    }
-
-    @Override
-    public String toString() {
-        return "B";
     }
 }

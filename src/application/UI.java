@@ -1,16 +1,15 @@
 package application;
 
-import chess.ChessMatch;
-import chess.ChessPiece;
-import chess.ChessPosition;
-import chess.Color;
-
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+import chess.ChessMatch;
+import chess.ChessPiece;
+import chess.ChessPosition;
+import chess.Color;
 
 public class UI {
 
@@ -37,7 +36,7 @@ public class UI {
 
     // https://stackoverflow.com/questions/2979383/java-clear-the-console
     public static void clearScreen() {
-        System.out.println("\033[H\033[2J");
+        System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
@@ -47,8 +46,27 @@ public class UI {
             char column = s.charAt(0);
             int row = Integer.parseInt(s.substring(1));
             return new ChessPosition(column, row);
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
+        }
+    }
+
+    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
+        printBoard(chessMatch.getPieces());
+        System.out.println();
+        printCapturedPieces(captured);
+        System.out.println();
+        System.out.println("Turn : " + chessMatch.getTurn());
+        if (!chessMatch.getCheckMate()) {
+            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+            if (chessMatch.getCheck()) {
+                System.out.println("CHECK!");
+            }
+        }
+        else {
+            System.out.println("CHECKMATE!");
+            System.out.println("Winner: " + chessMatch.getCurrentPlayer());
         }
     }
 
@@ -60,25 +78,7 @@ public class UI {
             }
             System.out.println();
         }
-        System.out.println(" a b c d e f g h");
-    }
-
-    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
-        printBoard(chessMatch.getPieces());
-        System.out.println();
-        printCapturedPieces(captured);
-        System.out.println();
-        System.out.println("Turn: " + chessMatch.getTurn());
-
-        if (!chessMatch.getCheckMate()) {
-            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
-            if (chessMatch.getCheck()) {
-                System.out.println("CHECK!");
-            }
-        } else {
-            System.out.println("CHECKMATE!");
-            System.out.println("Winner: " + chessMatch.getCurrentPlayer());
-        }
+        System.out.println("  a b c d e f g h");
     }
 
     public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
@@ -89,7 +89,7 @@ public class UI {
             }
             System.out.println();
         }
-        System.out.println(" a b c d e f g h");
+        System.out.println("  a b c d e f g h");
     }
 
     private static void printPiece(ChessPiece piece, boolean background) {
@@ -98,10 +98,12 @@ public class UI {
         }
         if (piece == null) {
             System.out.print("-" + ANSI_RESET);
-        } else {
+        }
+        else {
             if (piece.getColor() == Color.WHITE) {
                 System.out.print(ANSI_WHITE + piece + ANSI_RESET);
-            } else {
+            }
+            else {
                 System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
             }
         }
